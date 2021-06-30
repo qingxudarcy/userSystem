@@ -1,0 +1,61 @@
+syntax = "v1"
+
+info(
+	title: User Management
+	desc: 用户管理
+	author: "chang haidi"
+	email: "haidi.chang@mail.hypers.com"
+)
+
+type (
+	loginReq {
+		Name     string `json:"name"`
+		Password string `json:"password"`
+	}
+	listReq {
+		Name string `form:"name,optional"`
+		Id   int64  `form:"id,optional"`
+	}
+	createReq {
+		Name     string `form:"name"`
+		Password string `form:"password"`
+	}
+	updateReq {
+		Id       int64  `form:"id"`
+		Name     string `form:"name"`
+		Password string `form:"password"`
+	}
+)
+
+type (
+	loginResp {
+		Id           int64  `json:"id"`
+		Name         string `json:"name"`
+		AccessToken  string `json:"accessToken"`
+		AccessExpire int64  `json:"accessExpire"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+	listResp {
+		Id   int64  `json:"id"`
+		Name string `json:"name"`
+	}
+)
+
+service user-api {
+	@handler login
+	post /login (loginReq) returns (loginResp)
+}
+
+@server(
+	jwt: Auth
+)
+service user-api {
+	@handler list
+	get /user (listReq) returns (listResp)
+	
+	@handler create
+	post /user (createReq) returns (listReq)
+	
+	@handler update
+	put /user (updateReq) returns (listReq)
+}

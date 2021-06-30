@@ -1,0 +1,17 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3306)/gozero?charset=utf8mb4&parseTime=true&loc=Local
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Type: node
+Auth:
+  AccessSecret: changhaidi
+  AccessExpire: 1800
+UserRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+
